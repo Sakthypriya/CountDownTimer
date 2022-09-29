@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/custom.css" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      .main {
+        width: 100%;
+        height: 100%;
+        background-image: url("bird.jpg");
+        background-size: cover;
+        background-size: cover;
+      }
+
+      .overlay {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-image: url("bird.jpg");
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .title {
+        margin-top: 10px;
+        color: aqua;
+        text-align: center;
+        font-size: 2.5rem;
+      }
+
+      .col {
+        margin-top: 10px;
+        width: 1000px;
+        height: 100px;
+        display: flex;
+        text-align: center;
+        color: white;
+      }
+
+      .con div {
+        width: 250px;
+      }
+
+      input {
+        width: 50%;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-color: 10px;
+        height: 50px;
+        text-align: center;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+
+  <body style="text-align: center; background-color: black">
+    <div class="main">
+      <div class="overlay">
+        <div class="title"><h5>are coming soon</h5></div>
+        <div class="title" id="end-date"><h6>happy</h6></div>
+        <br /><br /><br /><br />
+        <div class="col">
+          <h1 style="display: none">00:00:00</h1>
+          <div style="margin-left: 100px">
+            <input type="text" id="Hours" readonly value="0" />
+            <br />
+            <label for="">Hours</label>
+          </div>
+          <div>
+            <input type="text" id="Minutes" readonly value="0" />
+            <br />
+            <label for="">Minutes</label>
+          </div>
+          <div>
+            <input type="text" id="Seconds" readonly value="0" />
+            <br />
+            <label for="">Seconds</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="stop-reset"
+      style="
+        width: 100%;
+        text-align: center;
+        background-color: black;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 100px;
+      "
+    >
+      <button onclick="stopbtn()" id="stop" style="
+      border: none;
+      background-color: green;
+      padding-left: 50px;
+      padding-right: 50px;
+      font-weight: bold;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      color: white;
+      margin: 10px;
+      font-size: 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    " >STOP</button>
+      <div id="resetbtn" style="display: flex;">
+        <button onclick="reset()" style="
+        border: none;
+        background-color: red;
+        padding-left: 50px;
+        padding-right: 50px;
+        font-weight: bold;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: white;
+        margin: 10px;
+        font-size: 20px;
+        border-radius: 6px;
+        cursor: pointer;
+      ">RESET</button>
+      </div>
+    </div>
+
+    <div
+      id="finish"
+      style="
+        width: 100%;
+        text-align: center;
+        background-color: black;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 100px;
+      "
+    >
+      <div>
+        <h2 style="color: red; font-size: 40px; margin-bottom: 10px">
+          SET TIME
+        </h2>
+        <br />
+        <div>
+          <input id="setinp" type="number" />
+          <br />
+          <button
+            onclick="set()"
+            style="
+              border: none;
+              background-color: green;
+              padding-left: 50px;
+              padding-right: 50px;
+              font-weight: bold;
+              padding-top: 5px;
+              padding-bottom: 5px;
+              color: white;
+              margin: 10px;
+              font-size: 20px;
+              border-radius: 6px;
+              cursor: pointer;
+            "
+          >
+            set
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+
+  <script>
+    let timeSecond = 0;
+    let tf = false;
+    let stp = false;
+    const timeH = document.querySelector("h1");
+
+    displayTime(timeSecond);
+    function set() {
+      timeSecond = parseInt(document.getElementById("setinp").value);
+      document.getElementById("setinp").value = "";
+      document.getElementById("finish").style.display = "none";
+      tf = true;
+      displayTime(timeSecond);
+      const countDown = setInterval(() => {
+        timeSecond--;
+        displayTime(timeSecond);
+        if (timeSecond == 0 || timeSecond < 1 || stp) {
+          endCount();
+          clearInterval(countDown);
+        }
+      }, 1000);
+    }
+
+    function stopbtn() {
+      if (stp) {
+        stp = false;
+        document.getElementById("stop").innerHTML = "STOP";
+        displayTime(timeSecond);
+        const countDown = setInterval(() => {
+          timeSecond--;
+          displayTime(timeSecond);
+          if (timeSecond == 0 || timeSecond < 1 || stp) {
+            endCount();
+            clearInterval(countDown);
+          }
+        }, 1000);
+      } else {
+        stp = true;
+        document.getElementById("stop").innerHTML = "START";
+        document.getElementById("resetbtn").display = "flex";
+      }
+      console.log(stp);
+    }
+
+    function reset() {
+      timeSecond = 0;
+      displayTime(timeSecond);
+    }
+
+    function displayTime(second) {
+      let hr = Math.floor(second / 3600);
+      let min = Math.floor(second / 60);
+      let sec = Math.floor(second % 60);
+      if(hr<0 || min<0 || sec<0){
+        hr=0;
+        min=0;
+        sec=0;
+      }
+      document.getElementById("Hours").value = hr;
+      document.getElementById("Minutes").value = min;
+      document.getElementById("Seconds").value = sec;
+      document.getElementById("stop-reset").style.display = "flex";
+      if (hr == 0 && min == 0 && sec == 0) {
+        document.getElementById("finish").style.display = "flex";
+        document.getElementById("stop-reset").style.display = "none";
+        if (tf) {
+          alert("Time out");
+        }
+      }
+    }
+
+    function endCount() {
+      timeH.innerHTML = "Time out";
+    }
+  </script>
+</html>

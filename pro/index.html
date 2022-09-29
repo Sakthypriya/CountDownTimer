@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="custom.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            
+            background-size: cover;
+        }
+
+        .overlay {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-image: url('bird.jpg') center center;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .title {
+            margin-top: 10px;
+            color: aqua;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .col {
+            margin-top: 10px;
+            width: 1000px;
+            height: 100px;
+            display: flex;
+            text-align: center;
+            color: white;
+        }
+
+        .con div {
+            width: 250px;
+        }
+
+        input {
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-color: 10px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+        } 
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="overlay">
+            <div class="title">We are coming soon</div>
+            <div class="title" id="end-date">happy</div>
+            <div class="col">
+                <h1>00:00:00</h1>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="js/app.js"></script> -->
+</body>
+<script>
+    let timeSecond = 3660;
+    const timeH = document.querySelector("h1");
+
+    displayTime(timeSecond);
+
+    const countDown = setInterval(() => {
+        timeSecond--;
+        displayTime(timeSecond);
+        if (timeSecond == 0 || timeSecond < 1) {
+            endCount();
+            clearInterval(countDown);
+        }
+    }, 1000);
+
+    function displayTime(second) {
+        const hr = Math.floor(second/3600)
+        const min = Math.floor(second / 60);
+        const sec = Math.floor(second % 60);
+        timeH.innerHTML = `
+  ${hr < 10 ? "0" :""}${hr}:${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}
+  `;
+    }
+
+    function endCount() {
+        timeH.innerHTML = "Time out";
+    }
+</script>
+
+</html>
